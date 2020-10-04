@@ -1,0 +1,1107 @@
+<?php
+/**
+ * Theme functions and definitions.
+ *
+ * Sets up the theme and provides some helper functions
+ *
+ * When using a child theme (see http://codex.wordpress.org/Theme_Development
+ * and http://codex.wordpress.org/Child_Themes), you can override certain
+ * functions (those wrapped in a function_exists() call) by defining them first
+ * in your child theme's functions.php file. The child theme's functions.php
+ * file is included before the parent theme's file, so the child theme
+ * functions would be used.
+ *
+ *
+ * For more information on hooks, actions, and filters,
+ * see http://codex.wordpress.org/Plugin_API
+ *
+ * @package WordPress
+ * @subpackage Fabulous WPExplorer Theme
+ * @since Fabulous 1.0
+ */
+
+
+
+/**
+	Constants
+ **/
+define( 'WPEX_JS_DIR_URI', get_template_directory_uri().'/js' );
+define( 'WPEX_THEME_BRANDING', get_theme_mod( 'wpex_theme_branding', 'FAB' ) );
+
+/**
+	Theme Setup
+ **/
+if ( ! isset( $content_width ) ) $content_width = 650;
+
+// Theme setup - menus, theme support, etc
+require_once( get_template_directory() .'/functions/theme-setup.php' );
+
+// Recommend plugins for use with this theme
+require_once ( get_template_directory() .'/functions/recommend-plugins.php' );
+
+
+
+/**
+	Theme Customizer
+ **/
+
+// Header Options
+require_once ( get_template_directory() .'/functions/theme-customizer/header.php' );
+
+// General Options
+require_once ( get_template_directory() .'/functions/theme-customizer/general.php' );
+
+// Styling Options
+require_once ( get_template_directory() .'/functions/theme-customizer/styling.php' );
+
+// Image resizing Options
+require_once ( get_template_directory() .'/functions/theme-customizer/image-sizes.php' );
+
+
+/**
+	Includes
+ **/
+
+// Define widget areas & custom widgets
+require_once( get_template_directory() .'/functions/widgets/widget-areas.php' );
+require_once( get_template_directory() .'/functions/widgets/widget-flickr.php' );
+require_once( get_template_directory() .'/functions/widgets/widget-social.php' );
+require_once( get_template_directory() .'/functions/widgets/widget-video.php' );
+require_once( get_template_directory() .'/functions/widgets/widget-posts-thumbnails.php' );
+require_once( get_template_directory() .'/functions/widgets/widget-notas-cliente.php' );
+
+// Admin only functions
+if ( is_admin() ) {
+
+	// Default meta options usage
+	require_once( get_template_directory() .'/functions/meta/usage.php' );
+
+	// Post editor tweaks
+	require_once( get_template_directory() .'/functions/mce.php' );
+
+	// Gallery Metabox
+	require_once( get_template_directory() .'/functions/meta/gallery-metabox/gmb-admin.php' );
+
+// Non admin functions
+} else {
+
+	// Gallery Metabox
+	require_once( get_template_directory() .'/functions/meta/gallery-metabox/gmb-display.php' );
+
+	// Function that returns correct grid class for specific column number
+	require_once( get_template_directory() .'/functions/grid.php' );
+
+	// Outputs the main site logo
+	require_once( get_template_directory() .'/functions/logo.php' );
+
+	// Loads front end css and js
+	require_once( get_template_directory() .'/functions/scripts.php' );
+
+	// Image resizing script
+	require_once( get_template_directory() .'/functions/aqua-resizer.php' );
+
+	// Show or hide sidebar accordingly
+	require_once( get_template_directory() .'/functions/sidebar-display.php' );
+
+	// Returns the correct image sizes for cropping
+	require_once( get_template_directory() .'/functions/featured-image.php' );
+
+	// Comments output
+	require_once( get_template_directory() .'/functions/comments-callback.php' );
+
+	// Pagination output
+	require_once( get_template_directory() .'/functions/pagination.php' );
+
+	// Custom excerpts
+	require_once( get_template_directory() .'/functions/excerpts.php' );
+
+	// Alter posts per page for various archives
+	require_once( get_template_directory() .'/functions/posts-per-page.php' );
+
+	// Outputs the footer copyright
+	require_once( get_template_directory() .'/functions/copyright.php' );
+
+	// Outputs post meta (date, cat, comment count)
+	require_once( get_template_directory() .'/functions/post-meta.php' );
+
+	// Used for next/previous links on single posts
+	require_once( get_template_directory() .'/functions/next-prev.php' );
+
+	// Outputs the post format video
+	require_once( get_template_directory() .'/functions/post-video.php' );
+
+	// Outputs the post format audio
+	require_once( get_template_directory() .'/functions/post-audio.php' );
+
+	// Outputs post author bio
+	require_once( get_template_directory() .'/functions/post-author.php' );
+
+	// Outputs post slider
+	require_once( get_template_directory() .'/functions/post-gallery.php' );
+
+	// Adds classes to entries
+	require_once( get_template_directory() .'/functions/post-classes.php' );
+
+	// Adds a mobile search to the sidr container
+	require_once( get_template_directory() .'/functions/mobile-search.php' );
+
+	// Custom WP Gallery Output
+	if ( get_theme_mod( 'wpex_custom_wp_gallery_output', '1' ) ) {
+		require_once( get_template_directory() .'/functions/wp-gallery.php' );
+	}
+
+	// Page featured images
+	require_once( get_template_directory() .'/functions/page-featured-image.php' );
+
+	// Post featured images
+	require_once( get_template_directory() .'/functions/post-featured-image.php' );
+
+	// Breadcrumbs
+	require_once( get_template_directory() .'/functions/breadcrumbs.php' );
+
+	// Pre_get_posts filter tweaks
+	require_once( get_template_directory() .'/functions/pre-get-posts.php' );
+
+	// Scroll top link
+	require_once( get_template_directory() .'/functions/scroll-top-link.php' );
+
+	// Body Classes
+	require_once( get_template_directory() .'/functions/body-classes.php' );
+
+	// Outputs content for quote format
+	require_once( get_template_directory() .'/functions/quote-content.php' );
+
+}
+
+// ----------------------------------------------
+// ------ post-thumbnails ----------------------- 
+// ----------------------------------------------
+if ( function_exists( 'add_theme_support' ) ) {
+	add_theme_support( 'post-thumbnails' );
+    add_image_size( 'thumbnails-relacionada', 390, 126, true ); // IMG para las relacionadas
+    add_image_size( 'thumbnails-empresaprof', 228, 300); // IMG para las empresas-profesionales
+}
+
+
+/**
+ * Ocultar categoria
+ * @param  [type] $args [description]
+ * @return [type]       [description]
+ */
+function exclude_widget_categories($args){
+  $exclude = "2"; // Los IDs de las categorías que no quieres mostrar
+  $args["exclude"] = $exclude;
+  return $args;
+}
+add_filter("widget_categories_args","exclude_widget_categories");
+
+
+function the_category_filtro($thelist,$separator=' ') {  
+	if(!defined('WP_ADMIN')) {  
+	    //Cat IDs para hacer exclude  
+	    $exclude = array(19,16,15,17);  
+	      
+	    $exclude2 = array();  
+	    foreach($exclude as $c) {  
+	        $exclude2[] = get_cat_name($c);  
+	    }  
+	      
+	    $cats = explode($separator,$thelist);  
+	    $newlist = array();  
+	    foreach($cats as $cat) {  
+	        $catname = trim(strip_tags($cat));  
+	        if(!in_array($catname,$exclude2))  
+	            $newlist[] = $cat;  
+	    }  
+	    return implode($separator,$newlist);  
+	} else {  
+	    return $thelist;  
+	}  
+}  
+add_filter('the_category','the_category_filtro', 10, 2);  
+
+
+
+/* Facebook */
+//Open Graph
+function facebookOpengraphDoctype( $output ) {
+        return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
+    }
+add_filter('language_attributes', 'facebookOpengraphDoctype');
+
+// Open Graph Meta
+function facebookEnHead() {
+    global $post;
+    if ( !is_singular())
+        return;
+        echo '<meta property="fb:admins" content="857448974307630"/>'.PHP_EOL;
+        echo '<meta property="og:title" content="' . get_the_title() . '"/>'.PHP_EOL;
+        echo '<meta property="og:type" content="article"/>'.PHP_EOL;
+        echo '<meta property="og:url" content="' . get_permalink() . '"/>'.PHP_EOL;
+        echo '<meta property="og:locale" content="es_LA" />'.PHP_EOL;
+        echo '<meta property="og:site_name" content="'.get_bloginfo('name').'"/>'.PHP_EOL;
+    if(!has_post_thumbnail( $post->ID )) {
+        $default_image="http://www.trademdesign.com/images/redes_sociales/tradem_logo.jpg";
+        echo '<meta property="og:image" content="' . $default_image . '"/>';
+    }
+    else{
+        $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
+        echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>';
+    }
+    echo "
+";
+}
+add_action( 'wp_head', 'facebookEnHead', 5 );
+
+
+
+function getPostRandom($posicion) {
+    global $post;
+
+
+    if (empty($posicion))
+    	return false;
+
+    if (is_category()){
+        $cat_ID = get_query_var('cat');
+        $args = array (
+        'tag' => $posicion,
+        'showposts'=>1,
+        'orderby'=>'rand',
+        'cat'=>$cat_ID
+        );
+    }else{
+        // Args del Query
+        $args = array (
+        'tag' => $posicion,
+        'showposts'=>1,
+        'orderby'=>'rand',
+        );
+    }
+
+    
+
+
+    $postRand = new WP_Query($args);
+
+    if ($postRand->have_posts()) :
+        $postRand->the_post();
+        $idNota = get_the_ID();
+        // Tomo el tipo de clase de la nota
+        $clase = get_post_meta( get_the_ID(), 'clase', true );
+
+    ?>
+<?php if ($clase == 'a' || $clase == 'b') : ?>
+
+	<article id="post-<?php the_ID(); ?>" <?php post_class($clase); ?>>
+			<?php
+			// Display post thumbnail
+			if ( has_post_thumbnail() && get_theme_mod( 'wpex_blog_entry_thumb', '1' ) == '1' ) { ?>
+				<div class="loop-entry-thumbnail">
+					<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( the_title_attribute( 'echo=0' ) ); ?>">
+						<img src="<?php echo wpex_get_featured_img_url(); ?>" alt="<?php echo esc_attr( the_title_attribute( 'echo=0' ) ); ?>" />
+					</a>
+				</div><!-- .post-entry-thumbnail -->
+			<?php } ?>
+	<div class="loop-entry-contentA clr">
+		<header>
+			<h2 class="loop-entry-titleA"><a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( the_title_attribute( 'echo=0' ) ); ?>"><?php the_title(); ?></a></h2>
+		</header>
+		<div class="loop-entry-excerptA entry clr">
+	<?php if ( get_theme_mod( 'wpex_entry_content_excerpt','excerpt' ) == 'content' ) {
+						the_content();
+			} else {
+				$wpex_readmore = get_theme_mod( 'wpex_blog_readmore', '1' ) ? true : false;
+				//wpex_excerpt( 52, $wpex_readmore );
+				echo get_the_excerpt();
+			} ?>
+<a href="https://twitter.com/share?source=tweetbutton&text=<?php echo get_the_title(); ?>&url=<?php the_permalink(); ?>&via=grupodeboss"><img class="social" src="<?php echo get_bloginfo('template_url'); ?>/images/sociales/1410825980_square-twitter-20.png" width="20" height="20" alt="twitter" style="opacity: 1;"></a>
+<a href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>&t=<?php echo get_the_title(); ?>"><img class="social" src="<?php echo get_bloginfo('template_url'); ?>/images/sociales/1410825984_square-facebook-20.png" width="20" height="20" alt="twitter" style="opacity: 1;"></a>
+		</div><!-- .loop-entry-excerpt -->
+	</div><!-- .loop-entry-content -->
+	</article>
+
+<?php else: ?>
+	<article id="post-<?php the_ID(); ?>" <?php post_class($clase); ?>>
+		<?php
+		// Display post thumbnail
+		if ( has_post_thumbnail() && get_theme_mod( 'wpex_blog_entry_thumb', '1' ) == '1' ) { ?>
+			<div class="loop-entry-thumbnail">
+				<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( the_title_attribute( 'echo=0' ) ); ?>">
+					<img src="<?php echo wpex_get_featured_img_url(); ?>" alt="<?php echo esc_attr( the_title_attribute( 'echo=0' ) ); ?>" />
+				</a>
+			</div><!-- .post-entry-thumbnail -->
+		<?php } ?>
+		<div class="loop-entry-content clr">
+			<header>
+				<h2 class="loop-entry-title"><a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( the_title_attribute( 'echo=0' ) ); ?>"><?php the_title(); ?></a></h2>
+			</header>
+			<a href="https://twitter.com/share?source=tweetbutton&text=<?php echo get_the_title(); ?>&url=<?php the_permalink(); ?>&via=grupodeboss"><img class="social" src="<?php echo get_bloginfo('template_url'); ?>/images/sociales/1410825980_square-twitter-20.png" width="20" height="20" alt="twitter" style="opacity: 1;"></a>
+<a href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); ?>&t=<?php echo get_the_title(); ?>"><img class="social" src="<?php echo get_bloginfo('template_url'); ?>/images/sociales/1410825984_square-facebook-20.png" width="20" height="20" alt="twitter" style="opacity: 1;"></a>
+		</div><!-- .loop-entry-content -->
+		<?php
+		// Display post meta details
+		//wpex_post_meta() ;?>
+	</article><!-- .loop-entry -->
+
+<?php endif; ?>	
+<?php
+    else:
+        return false;
+
+    endif;
+
+    //wp_reset_query();
+    wp_reset_postdata();
+    return $idNota;
+
+}
+
+
+/* Agrego Shortcode para Categorias*/
+function getCategorias() {
+    global $wpdb;
+    $notas = array();
+
+    $categorias=  get_categories(array('hide_empty' => true,'exclude' => '1'));
+
+    foreach ($categorias as $categoria) :
+        if ($categoria->parent == 0)
+            continue;
+
+        query_posts( array( 'post_type' => 'post', 'category__and' => array($categoria->cat_ID),'showposts'=>1,'orderby' => 'date','order' => DESC ) ); 
+        if (have_posts()) : ?>
+
+<?php while (have_posts()) : the_post();  
+        $imgEmpresa = get_post_meta(get_the_ID(),'imgEmpresa',true);
+?>
+    <div class="one_fourth">
+        <div class="titulo-estudio"><a href="<?php echo esc_url(get_category_link($categoria->cat_ID) ) ?>" class="enlaceacat"><?php echo $categoria->name; ?></a></div>
+    <?php if (!empty($imgEmpresa)): ?>
+        <p><a href="<?php echo esc_url(get_category_link($categoria->cat_ID) ) ?>"><img width="228" height="300" alt="<?php echo $cliente->nombre; ?>" title="<?php echo $cliente->nombre; ?>" src="<?php echo $imgEmpresa; ?>" class="alignnone size-medium"></a></p>
+    <?php else: ?>
+        <p><a href="<?php echo esc_url(get_category_link($categoria->cat_ID) ) ?>"><?php echo the_post_thumbnail('thumbnails-empresaprof',array('class'=>'alignnone size-medium','alt'=>$cliente->nombre,'title'=>$cliente->nombre)); ?></a></p>
+    <?php endif; ?>
+
+  </div>
+
+  <?php endwhile; ?>
+ <?php endif; wp_reset_query();  
+
+
+    endforeach;
+    echo '<div class="clear"></div>';
+
+}
+add_shortcode( 'categorias', 'getCategorias' );
+
+
+/* Agrego Shortcode para Empresas*/
+function getEmpresas() {
+    global $wpdb;
+    $notas = array();
+
+    $mysqli = new mysqli("localhost", "tradem_user_et", "2EeHrkIA", "tradem_et");
+	if ($mysqli->connect_errno) {
+	    return false;
+	}
+
+    // Buscamos las NOTAS de los clientes. Se debe consultar a ET para obtener este dato
+    $query = "SELECT id,nombre FROM `nuke_clientes` WHERE `activo` = '1' ORDER BY nombre ASC"; 
+    $queryEj = $mysqli->query($query);
+    //$datosCliente = $queryEj->fetch_object();
+
+    $idPostET = array();
+    while ($cliente = $queryEj->fetch_object()):
+        //echo $row->nombre."<br>";
+        $wpdb->query("SELECT `post_id`,`meta_key`, `meta_value` FROM $wpdb->postmeta 
+            WHERE `meta_key` = 'cliente' and meta_value = '".$cliente->id."' AND post_id<>'".get_the_ID()."'  ORDER BY `post_id` DESC LIMIT 1");
+        foreach($wpdb->last_result as $k => $v):
+        	$idPostET[] = $v->post_id;
+            $laNota = new WP_Query( array( 'post_type' => 'post', 'p' => $v->post_id ) );
+
+
+			if ( $laNota->have_posts() ) :
+				while ( $laNota->have_posts() ):
+					$laNota->the_post(); 
+					$imgEmpresa = get_post_meta(get_the_ID(),'imgEmpresa',true);
+					?>
+
+					<div class="empresa">
+			         <div class="titulo-empresa"><?php echo utf8_encode($cliente->nombre); ?></div>
+			    <?php if (!empty($imgEmpresa)): ?>
+			        <p><a href="<?php the_permalink(); ?>"><img width="228" height="300" alt="<?php echo $cliente->nombre; ?>" title="<?php echo $cliente->nombre; ?>" src="<?php echo $imgEmpresa; ?>" class="alignnone size-medium"></a></p>
+			    <?php else: ?>
+			        <p><a href="<?php the_permalink(); ?>"><?php echo the_post_thumbnail('thumbnails-empresaprof',array('class'=>'alignnone size-medium','alt'=>$cliente->nombre,'title'=>$cliente->nombre)); ?></a></p>
+			    <?php endif; ?>
+
+			  </div>
+					
+			<?php	endwhile;
+			endif;
+		wp_reset_postdata();
+        endforeach;
+        wp_reset_query();
+	endwhile;
+    echo '<div class="clear"></div>';
+}
+add_shortcode( 'empresas', 'getEmpresas' );
+
+/* Agrego Shortcode para Estudios*/
+function getEstudios() {
+    global $wpdb;
+    $notas = array();
+
+    $mysqli = new mysqli("localhost", "tradem_user_et", "2EeHrkIA", "tradem_et");
+	if ($mysqli->connect_errno) {
+	    return false;
+	}
+
+    // Buscamos las NOTAS de los clientes. Se debe consultar a ET para obtener este dato
+    $query = "SELECT id,nombre FROM `nuke_clientes` WHERE `activo` = '1' AND estudio='1' ORDER BY nombre ASC"; 
+    $queryEj = $mysqli->query($query);
+
+    $idPostET = array();
+    while ($cliente = $queryEj->fetch_object()):
+        $wpdb->query("SELECT `post_id`,`meta_key`, `meta_value` FROM $wpdb->postmeta 
+            WHERE `meta_key` = 'cliente' and meta_value = '".$cliente->id."' AND post_id<>'".get_the_ID()."'  ORDER BY `post_id` DESC LIMIT 1");
+        foreach($wpdb->last_result as $k => $v):
+        	$idPostET[] = $v->post_id;
+            $laNota = new WP_Query( array( 'post_type' => 'post', 'p' => $v->post_id ) );
+
+			if ( $laNota->have_posts() ) :
+				while ( $laNota->have_posts() ):
+					$laNota->the_post(); 
+					$imgEmpresa = get_post_meta(get_the_ID(),'imgEmpresa',true);
+					?>
+
+					<div class="estudios">
+				         <div class="titulo-empresa"><?php echo utf8_encode($cliente->nombre); ?></div>
+				    <?php if (!empty($imgEmpresa)): ?>
+				        <p><a href="<?php the_permalink(); ?>"><img width="228" height="300" alt="<?php echo $cliente->nombre; ?>" title="<?php echo $cliente->nombre; ?>" src="<?php echo $imgEmpresa; ?>" class="alignnone size-medium"></a></p>
+				    <?php else: ?>
+				        <p><a href="<?php the_permalink(); ?>"><?php echo the_post_thumbnail('thumbnails-empresaprof',array('class'=>'alignnone size-medium','alt'=>$cliente->nombre,'title'=>$cliente->nombre)); ?></a></p>
+				    <?php endif; ?>
+			  		</div>
+					
+			<?php	endwhile;
+			endif;
+		wp_reset_postdata();
+        endforeach;
+        wp_reset_query();
+	endwhile;
+    echo '<div class="clear"></div>';
+}
+add_shortcode( 'estudios', 'getEstudios' );
+
+
+
+
+if ( ! function_exists( 'marquesina_full' ) ) {
+    function marquesina_full () {
+        if ( is_single() || is_home() || is_page() || is_archive()) {
+            get_template_part( 'partials/marquesina', 'full' );
+        }
+    } 
+}
+
+
+
+
+if( !function_exists( 'scripts_varios' ) ) {
+    function scripts_varios() {
+		
+	wp_register_script( 'marquesina', get_template_directory_uri() . '/js/marquesina.js', 'jquery', '', TRUE );
+    wp_enqueue_script('marquesina');
+    }
+    add_action('wp_enqueue_scripts', 'scripts_varios');
+}
+
+
+
+
+function rename_post_formats( $safe_text ) {
+    if ( $safe_text == 'Estado' )
+        return 'Banner';
+
+    return $safe_text;
+}
+add_filter( 'esc_html', 'rename_post_formats' );
+
+//rename Aside in posts list table
+function live_rename_formats() { 
+    global $current_screen;
+
+    if ( $current_screen->id == 'edit-post' ) { ?>
+        <script type="text/javascript">
+        jQuery('document').ready(function() {
+
+            jQuery("span.post-state-format").each(function() { 
+                if ( jQuery(this).text() == "Estado" )
+                    jQuery(this).text("Quick");             
+            });
+
+        });      
+        </script>
+<?php }
+}
+add_action('admin_head', 'live_rename_formats');
+
+
+
+
+
+
+// OJO CON TODO ESTE BLOQUE - IMPORTANTE PARA EXCERT
+function wpse_allowedtags() {
+    // Add custom tags to this string
+        return '<br>,<em>,<i>,<a>'; 
+    }
+
+if ( ! function_exists( 'wpse_custom_wp_trim_excerpt' ) ) : 
+
+    function wpse_custom_wp_trim_excerpt($wpse_excerpt) {
+    $raw_excerpt = $wpse_excerpt;
+        if ( '' == $wpse_excerpt ) {
+
+            $wpse_excerpt = get_the_content('');
+            $wpse_excerpt = strip_shortcodes( $wpse_excerpt );
+            $wpse_excerpt = apply_filters('the_content', $wpse_excerpt);
+            $wpse_excerpt = str_replace(']]>', ']]&gt;', $wpse_excerpt);
+            $wpse_excerpt = strip_tags($wpse_excerpt, wpse_allowedtags()); /*IF you need to allow just certain tags. Delete if all tags are allowed */
+
+            //Set the excerpt word count and only break after sentence is complete.
+                $excerpt_word_count = 65;
+                $excerpt_length = apply_filters('excerpt_length', $excerpt_word_count); 
+                $tokens = array();
+                $excerptOutput = '';
+                $count = 0;
+
+                // Divide the string into tokens; HTML tags, or words, followed by any whitespace
+                preg_match_all('/(<[^>]+>|[^<>\s]+)\s*/u', $wpse_excerpt, $tokens);
+
+                foreach ($tokens[0] as $token) { 
+
+                    if ($count >= $excerpt_length && preg_match('/[\,\;\?\.\!]\s*$/uS', $token)) { 
+                    // Limit reached, continue until , ; ? . or ! occur at the end
+                        $excerptOutput .= trim($token);
+                        break;
+                    }
+
+                    // Add words to complete sentence
+                    $count++;
+
+                    // Append what's left of the token
+                    $excerptOutput .= $token;
+                }
+
+            $wpse_excerpt = trim(force_balance_tags($excerptOutput));
+
+                //$excerpt_end = ' <a href="'. esc_url( get_permalink() ) . '">' . '&nbsp;&raquo;&nbsp;' . sprintf(__( 'Read more about: %s &nbsp;&raquo;', 'wpse' ), get_the_title()) . '</a>'; 
+                //$excerpt_more = apply_filters('excerpt_more', ' ' . $excerpt_end); 
+
+                //$pos = strrpos($wpse_excerpt, '</');
+                //if ($pos !== false)
+                // Inside last HTML tag
+                //$wpse_excerpt = substr_replace($wpse_excerpt, $excerpt_end, $pos, 0); /* Add read more next to last word */
+                //else
+                // After the content
+                //$wpse_excerpt .= $excerpt_more; /*Add read more in new paragraph */
+
+            return $wpse_excerpt;   
+
+        }
+        return apply_filters('wpse_custom_wp_trim_excerpt', $wpse_excerpt, $raw_excerpt);
+    }
+
+endif; 
+
+remove_filter('get_the_excerpt', 'wp_trim_excerpt');
+add_filter('get_the_excerpt', 'wpse_custom_wp_trim_excerpt'); 
+
+
+function getCliente($idCliente) {
+    global $wpdb;
+
+    if (empty($idCliente)) {
+        return false;
+    }
+
+    // Contectamos a buscar los datos del cliente
+  	$mysqli = new mysqli("localhost", "tradem_user_et", "2EeHrkIA", "tradem_et");
+  	// local
+  	//$mysqli = new mysqli("localhost", "root", "globaljp", "tradem_espacio");
+  	if ($mysqli->connect_errno) {
+    	return false;
+  	}
+
+    $sqlCliente = $mysqli->query(
+        "SELECT nombre,url FROM nuke_clientes WHERE id='".$idCliente."' LIMIT 1"
+        );
+
+    $datosCliente = array();
+    while ($cliente = $sqlCliente->fetch_object()) {
+        $datosCliente["nombre"] = $cliente->nombre;
+        $datosCliente["url"] = $cliente->url; 
+    }
+
+    return $datosCliente;
+
+
+}
+
+
+function setViewsHome($zona='home') {
+    global $wpdb;
+    $anio  = date('Y');
+    $mes = date('m');
+
+    $MesAnio = $wpdb->get_results( 
+    "SELECT id,contador
+    FROM wp_stats
+    WHERE mes='".$mes."' and anio='".$anio."' and zona='".$zona."' limit 1",OBJECT);
+//$h = $MesAnio->contador;
+    $existeMesAnio = $wpdb->num_rows;
+    //echo " ".$h;
+    if ($existeMesAnio=='1') {
+    	foreach ($MesAnio as $key => $value) {
+    		//echo $value->contador." --- ";
+    		$contar = (int)$value->contador+1;
+    		        $g = $wpdb->update( 
+	'wp_stats', 
+	array( 
+		'contador' => $contar
+	), 
+	array( 'id' => $value->id
+
+		), 
+	array( 
+		'%s',	// value1
+	), 
+	array( '%d') 
+);
+    		
+    	}
+    	//echo $contar;
+    	//$contar = $h+1;
+        //$wpdb->query("UPDATE wp_stats SET contador=".$contar." WHERE mes='".$mes."' and anio='".$anio."' and zona='".$zona."'");
+        //echo $contar." UPDATE wp_stats SET contador=".$contar." WHERE mes='".$mes."' and anio='".$anio."' and zona='".$zona."'";
+
+$wpdb->flush();
+
+
+
+    }
+
+    if ($existeMesAnio=='0') {
+        /*$wpdb->query($wpdb->prepare("INSERT INTO wp_stats 
+            (id,mes,anio,contador,zona)
+            VALUES ( %d,%d,%d,%d,%s)",
+            "",
+            $mes,
+            $anio,
+            '1',
+            $zona
+
+            ));*/
+/*
+        $wpdb->insert( 
+	'wp_stats', 
+	array( 
+		'mes' => $mes, 
+		'anio' => $anio,
+		'contador' => '1',
+		'zona'=>$zona
+	), 
+	array( 
+		'%d', 
+		'%d',
+		'%s',
+		'%s' 
+	) 
+);
+*/
+
+
+
+        /*echo "INSERT INTO wp_stats 
+            (id,mes,anio,contador,zona)
+            VALUES ( %d,%d,%d,%d,%s)",
+            "",
+            $mes,
+            $anio,
+            '1',
+            $zona
+
+            ;*/
+    }
+    $wpdb->flush();
+}
+
+
+function getDatosCliente($id) {
+    global $wpdb;
+    if (empty($id))
+        return false;
+
+
+	// Contectamos a buscar los datos del cliente
+	$mysqli = new mysqli("localhost", "tradem_user_et", "2EeHrkIA", "tradem_et");
+	// local
+	//$mysqli = new mysqli("localhost", "root", "globaljp", "tradem_espacio");
+	if ($mysqli->connect_errno) {
+		return false;
+	}
+
+    $datos = $mysqli->query( "SELECT 
+        nuke_clientes_datos.nombre as NOMBRE, nuke_clientes_datos.calle,nuke_clientes_datos.numero,nuke_clientes_datos.piso_depto,nuke_clientes_datos.localidad,nuke_clientes_datos.partido,nuke_clientes_datos.provincia_id,nuke_clientes_datos.rubro,nuke_clientes_datos.email,nuke_clientes_datos.cpa,nuke_clientes_datos.web,nuke_clientes_datos.telefono,nuke_clientes_datos.movil,nuke_clientes_datos.horario,nuke_clientes_datos.contacto,nuke_clientes_datos.otros_datos 
+        FROM nuke_clientes_datos 
+        INNER JOIN nuke_clientes ON (nuke_clientes.id=nuke_clientes_datos.id_cliente AND nuke_clientes.activo=1)
+        WHERE id_cliente=$id limit 1");
+
+
+    if (empty($datos))
+        return false;
+
+    $htmlDatos = "";
+    while ($dato = $datos->fetch_object()) {
+        $htmlDatos .= '
+        <div class="review-box review-bottom review-stars" id="review-box"><h2 class="review-box-header">Datos de Contacto</h2>
+        <div itemtype="http://schema.org/Rating" itemscope="" itemprop="reviewRating" class="review-summary">
+                <div itemprop="description" class="review-short-summary">
+                    <p></p><p><strong>Nombre</strong>: '.mb_strtoupper(utf8_decode($dato->NOMBRE)).'</p>';
+        if (!empty($dato->rubro)) {
+            $htmlDatos .= '<p><strong>Rubro</strong>: '.ucfirst(mb_strtolower(utf8_decode($dato->rubro))).'</p>';
+        }
+        if (!empty($dato->email)) {
+            $htmlDatos .= '<p> <strong>Email</strong>: <a href="mailto:'.$dato->email.'">'.$dato->email.'</a></p>';
+        }
+        if (!empty($dato->telefono)) {
+            $htmlDatos .= '<p><strong>Teléfono</strong>:'.$dato->telefono.'</p>';
+        }      
+        if (!empty($dato->contacto)) {
+            $htmlDatos .= '<p> <strong>Contacto</strong>:'.$dato->contacto.'</p>';
+        }
+        if (!empty($dato->web)) {
+            $htmlDatos .= '<p> <strong>Web</strong>:<a target="_blank" href="http://www.espaciotradem.com/linkeo.php?link='.$dato->web.'" rel="nofollow"> '.$dato->web.'</a></p>';
+        }
+        // Armo la direccion
+        $direccion = $dato->calle." ".$dato->numero." ".$dato->piso_depto." ".$dato->localidad;
+        if (!empty($direccion)) {
+            $htmlDatos .= '<p> <strong>Dirección</strong>: '.utf8_decode($direccion).'</p>';
+        }
+        if (!empty($dato->otros_datos)) {
+            $htmlDatos .= '<p> <strong>Otros datos de interés:</strong>: '.utf8_decode($dato->otros_datos).'</p>';
+        }
+
+
+         $htmlDatos .= '<p></p>
+                </div>
+                </div>
+                </div>';
+        $htmlDatos .= '<div class="comoPublicar"><a target="_blank" href="http://www.trademmedia.com.ar/formulario-pauta.php">Para comunicar en TrademMedia</a></div>';
+
+    }
+
+    return $htmlDatos;
+
+}
+
+function setPostViews($postID) {
+
+    $count_key = 'views';
+    $count = get_post_meta($postID, $count_key, true);
+    if($count==''){
+        $count = 0;
+        delete_post_meta($postID, $count_key);
+        add_post_meta($postID, $count_key, '0');
+    }else{
+        $count++;
+        update_post_meta($postID, $count_key, $count);
+        /*$wpdb->query(
+            "
+                UPDATE nuke_clientes_stats
+                SET contador_leermas = '".$count."'
+                WHERE id_articulo = '".$postID."' and sitio='espacio'
+            ");*/
+    }
+}
+
+function guardarViews($id,$visitantes,$cliente,$titulo=null,$link=null,$img=null) {
+	//echo $titulo." ".$link." ".$img;
+//echo $id." ".$visitantes." ".$cliente;
+	$visitantes = ($visitantes=='0') ? '1' : $visitantes ;
+	if (empty($cliente) || empty($id) || empty($visitantes))
+		return false;
+
+    $mysqli = new mysqli("localhost", "tradem_user_et", "2EeHrkIA", "tradem_et");
+	if ($mysqli->connect_errno) {
+	    return false;
+	}
+    //$existe_art_stat = $mysqli->query("SELECT id,id_cliente from nuke_clientes_stats where id_articulo = '".$id."' AND sitio='style' LIMIT 1");
+    $existe_art_stat = $mysqli->query("SELECT id,id_cliente from nuke_clientes_stats where id_articulo = '".$id."' AND sitio='design' LIMIT 1");
+    $existe_art_stat_num = mysqli_num_rows($existe_art_stat);
+
+    if($existe_art_stat_num>0) {
+    	// Realizamos Update
+    	$actualizarNotaStats = $mysqli->real_query("UPDATE nuke_clientes_stats SET contador_leermas='$visitantes',id_cliente='$cliente' where id_articulo='$id' AND sitio='design'");
+    }else{
+    	// Realizamos un Insert
+    	$insertarNotaStats = $mysqli->real_query("INSERT INTO `nuke_clientes_stats` (`id` ,`id_cliente` ,`id_articulo` ,`fecha` ,`contador_leermas` ,`sitio`,titulo,permalink,imagen)
+    		VALUES (NULL , '$cliente', '$id', NOW(), '$visitantes', 'design','$titulo','$link','$img')");
+    }
+
+    return true;
+}
+
+
+
+add_action('wp_footer', 'add_googleanalytics');
+function add_googleanalytics() { ?>
+	<!--Analytics-->
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-25854913-1', 'auto');
+	  ga('send', 'pageview');
+	</script>
+	<!-- Fin Analytics-->
+
+<?php }
+
+add_action('wp_head', 'agregarMeta');
+function agregarMeta() { ?>
+	<meta http-equiv="expires" content="0">
+	<meta name="RESOURCE-TYPE" content="document">
+	<meta name="DISTRIBUTION" content="GLOBAL">
+	<meta name="AUTHOR" content="Tradem Design">
+	<meta name="COPYRIGHT" content="Copyright (c) by Tradem Design">
+	<meta name="keywords" content="pisos y revestimiento, revestimiento para baños, revestimiento pisos, pisos flotantes, piso flotante, cerámico para pisos, pisos y revestimientos, revestimiento para pisos, pisos cerámicos precios, revestimientos para paredes exteriores, piso flotante precios, revestimiento para paredes, pisos vinilicos en rollos, precio pisos, ceramicas, pintura para pisos, pisos para quinchos">
+	<meta name="ROBOTS" content="INDEX, FOLLOW">
+	<meta name="category" content="Arquitectura Comercial, Comunicación y Negocios">
+	<meta name="REVISIT-AFTER" content="1 DAYS">
+	<meta name="RATING" content="GENERAL">
+<?php }
+
+add_action( 'publish_post', 'enviarEmailPorNotaPublicada' );
+function enviarEmailPorNotaPublicada( $post_id ) {
+	if ( !wp_is_post_revision( $post_id ) ) {
+		$idCliente = get_post_meta($post_id,'cliente',true);
+		$esCliente = true;
+		if(count(explode('_', $idCliente))!=1 && !empty($idCliente)) {
+			$esCliente = false;
+		}
+		$post_url = get_permalink( $post_id );
+		//$estado = get_post_status($post_id);
+		$campo = get_post_meta($post_id,'cliente',true);
+		// Se revisa si ya se ha enviado en email de alerta
+		$yaAlerte = get_post_meta($post_id,'alerta',true);
+
+		if (!empty($yaAlerte))
+			return false;
+
+		if ($esCliente) {
+			// Contectamos a buscar los datos del cliente
+			$mysqli = new mysqli("localhost", "tradem_user_et", "2EeHrkIA", "tradem_et");
+			// local
+			//$mysqli = new mysqli("localhost", "root", "globaljp", "tradem_espacio");
+			if ($mysqli->connect_errno) {
+				return false;
+			}
+
+			$clienteByNota = $mysqli->query("SELECT nuke_clientes.nombre as NOMBRE, emails as EMAILS from nuke_clientes 
+				where nuke_clientes.id = '".$idCliente."' and activo='1' LIMIT 1");
+
+    		$hayCliente = mysqli_num_rows($clienteByNota);
+
+    		$datosClienteArray = array();
+    		$clienteNombre = "";
+    		if ($hayCliente>0) {
+    			$datosCliente = $clienteByNota->fetch_assoc();
+    			$clienteNombre = $datosCliente['NOMBRE'];
+
+    			$destinatarios = array_map('trim',explode(",",$datosCliente["EMAILS"]));
+    			foreach($destinatarios as $email) {
+    				$emails_destinatarios[] = $email;
+    			}
+    		}
+		}
+
+		$mes = strtoupper( mesEnvio(date('n')) );
+		$textura = getTexturasReporte();
+		$subject = $clienteNombre.' - Aviso de publicación de nota - TrademMedia';
+		$mensaje = '
+		<html><head></head>
+<body text="#666666" bgcolor="#E7E3E2" alink="#598DCA" vlink="#598DCA" link="#598DCA">
+<table width="600" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#FFFFFF" bgcolor="#FFFFFF">
+  
+
+
+<tr>
+    <td><img src="'.$textura.'" border="0"></td>  
+  </tr>
+  <tr>
+      <td>
+        <table width="600" bgcolor="#3C3B39">
+            <tr>
+                <td width="456"><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF" size="2" >Aviso de Publicación de Nota - </font><font face="Verdana, Arial, Helvetica, sans-serif" color="#00CC33" size="2" ><strong>'.$clienteNombre.'</strong></font></td>
+                <td width="124"><font face="Verdana, Arial, Helvetica, sans-serif" color="#FFFFFF" size="1" >'.$mes.' '.date('Y').'</font></td>
+            </tr>
+        </table>
+      </td>
+   </tr> 
+  <tr>
+    <td>
+    <table width="580" border="0" align="center" cellpadding="10" cellspacing="0">
+      <tr>
+        <td><font face="Verdana, Arial, Helvetica, sans-serif" color="#6699CC" size="3" ><strong>'.$clienteNombre.'</strong></font></td>
+      </tr>
+      <tr>
+        <td><font face="Verdana, Arial, Helvetica, sans-serif "size="2" >Nos complace informarle que se acaba de publicar la nota:<br><br>
+        <font face="Verdana, Arial, Helvetica, sans-serif "size="4"><strong>'.get_the_title($post_id).'</strong></font><br><br>
+       Para poder verla haga "click" en este enlace directo: <br><br>
+		<a href="'. $post_url.'">'.$post_url.'</a><br><br>
+		Cualquier ajuste, modificación o cambio, a disposición.<br><br>
+		<p style="text-align: right">Saluda atentamente <br> <strong>TrademMedia.com</strong></p>
+         </font></td>
+      </tr>
+
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td><table width="580" border="0" align="center" cellpadding="10" cellspacing="0">
+      <tr>
+        <td><strong><font color="#6699CC" size="3" face="Verdana, Arial, Helvetica, sans-serif">Acerca TrademMedia.com</font></strong></td>
+      </tr>
+      <tr>
+        <td><font face="Verdana, Arial, Helvetica, sans-serif "size="2" >
+<p style="color:color:#666; font-size: 11px;">
+        <strong>TrademMedia.com</strong> es el espacio on line orientado a la arquitectura, el diseño, la vanguardia,  que posee dentro de su universo tres plataformas temáticas de comunicación (EspacioTradem, TrademDesign & TrademStyle) y redes sociales integradas (Comunidad Tradem).
+        <br /><br /><strong>EspacioTradem.com</strong> Arquitectura Comercial & Corporativa.
+        <br /><br /><strong>TrademDesign.com</strong> diseño, decoración, interiorismo & Arte aplicado.
+        <br /><br /><strong>TrademStyle.com</strong> Desarrollos & Emprendimientos. Espacios exteriores, paisajismo, life style y tecnología.
+        <br /><br /><strong>Comunidad Tradem</strong> Red social de integración y participación.    
+
+        </p>
+
+</font></td>
+      </tr>
+     
+    </table></td>
+  </tr>
+    <tr>
+    <td bgcolor="#333333">
+    <table width="580" border="0" cellspacing="10" cellpadding="0">
+    <tr><td height="100">
+    <a href="http://www.facebook.com/ComunidadTradem" style="border:none;text-decoration:none;"><img src="http://www.espaciotradem.com/reportes/pie-reporte.jpg" alt="Seguinos en Facebook" border="0" /></a>
+    </td></tr>
+    <tr>
+    <td colspan="3" style="text-align: center"><font face="Verdana, Arial, Helvetica, sans-serif" color="#CCCCCC"; size="1" >Si Ud. no puede visualizar este comunicado, por favor, envienos un email a <a href="mailto:reportes@espaciotradem.com">reportes@espaciotradem.com</a></font></td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+</table>
+</body>
+</html>';
+		$emails_destinatarios[] = 'contenidos@trademmedia.com';
+		$headers[] = 'Bcc: Soporte <jpherrera@mailoo.org>';
+		$headers[] = 'Bcc: Nacho Rocca <roccaignacio@gmail.com>';
+		//$headers[] = 'Bcc: M Fernandas <m_fernandas@hotmail.com>';
+		// Enviamos alerta de publicación
+		wp_mail($emails_destinatarios, $subject, $mensaje,$headers );
+
+		// Marcamos el Post como informado
+		update_post_meta($post_id, 'alerta', 1);
+	}
+}
+
+function mesEnvio($num)
+    {
+        switch($num) {
+            case 1:
+                $mes = 'enero';
+                break;
+            case 2:
+                $mes = 'febrero';
+                break;
+            case 3:
+                $mes = 'marzo';
+                break;
+            case 4:
+                $mes = 'abril';
+                break;
+            case 5:
+                $mes = 'mayo';
+                break;
+            case 6:
+                $mes = 'junio';
+                break;
+            case 7:
+                $mes = 'julio';
+                break;
+            case 8:
+                $mes = 'agosto';
+                break;
+            case 9:
+                $mes = 'septiembre';
+                break;
+            case 10:
+                $mes = 'octubre';
+                break;
+            case 11:
+                $mes = 'noviembre';
+                break;
+            case 12:
+                $mes = 'diciembre';
+                break;            
+        }
+        return $mes;
+    }
+
+function getTexturasReporte() {
+  $idHeader = rand(1,8);
+  $header = '';
+  //if (is_file("reportes/encabezado_espacio_clic-0".$idHeader.".jpg")) {
+    $header .= 'http://www.espaciotradem.com/reportes/encabezado_design_clic-0'.$idHeader.'.jpg';
+  //}
+
+  return $header;
+}
+
+
+/* Agrego Shortcode para Empresas*/
+function getNews() {
+    global $wpdb;
+    // Se conecta con Mailing
+    $mysqli = new mysqli("localhost", "mailingbi_m1", "gvwqujNT", "mailingbi_m1");
+    if ($mysqli->connect_errno) {
+        return false;
+    }
+    $newsByCliente = $mysqli->query("SELECT area,folder,asunto FROM listas  WHERE area ='14' order by id_lista DESC");
+    $hayNews = mysqli_num_rows($newsByCliente);
+    if ($hayNews<1)
+        return false;
+
+
+    echo '<div class="one_third last">';
+    echo '<ul class="minus-blue-list">';
+
+    while ($new = $newsByCliente->fetch_object()):
+        echo "<li>";
+        echo '<a href="http://www.boletinesinteligentes.com/app/data/'.$new->folder.'" target="_blank">Ver Newsletter '.utf8_encode($new->asunto).'</a>';
+        echo "</li>";
+
+    endwhile;
+
+    echo '</ul>';
+    echo "</div>";
+}
+add_shortcode( 'boletinesinteligentes', 'getNews' );
+
+
+?>

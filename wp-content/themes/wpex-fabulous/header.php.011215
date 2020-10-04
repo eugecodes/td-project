@@ -1,0 +1,88 @@
+<?php
+/**
+ * The Header for our theme.
+ *
+ * @package WordPress
+ * @subpackage Fabulous WPExplorer Theme
+ * @since Fabulous 1.0
+ */
+?><!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+
+<head>
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title><?php wp_title( '|', true, 'right' ); ?><?php bloginfo('name'); ?></title>
+	<meta name="description" content="<?php if ( is_single() ) {
+        single_post_title('', true); 
+    } else {
+        bloginfo('name'); echo " - "; bloginfo('description');
+    }
+    ?>" />
+	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+	<?php if ( get_theme_mod('wpex_custom_favicon') ) { ?>
+		<link rel="shortcut icon" href="<?php echo get_theme_mod('wpex_custom_favicon'); ?>" />
+	<?php } ?>
+	<!--[if lt IE 9]>
+		<script src="<?php echo get_template_directory_uri(); ?>/js/html5.js"></script>
+	<![endif]-->
+	<?php wp_head(); ?>
+</head>
+
+<body <?php body_class(); ?>>
+
+	<div id="wrap" class="clr">
+
+		<div id="header-wrap-<?php echo rand(1,7); ?>" class="clr">
+<table class="para-comunicar" style="line-height: 16px;" width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <td>&nbsp;</td>
+      <td height="7" >&nbsp;</td>
+    </tr>
+    <tr>
+    <td width="3%"><img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/09/bullet.jpg" alt="" width="8" height="8" style="margin-right:10px" border="2"><br>
+      <img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/09/bullet.jpg" alt="" width="8" height="8" style="margin-right:10px" border="2"><br>
+      <img src="<?php bloginfo('url'); ?>/wp-content/uploads/2015/09/bullet.jpg" alt="" width="8" height="8" style="margin-right:10px" border="2"></td>
+    <td width="97%" height="7" >   
+    <a href="http://www.trademmedia.com.ar/contacto" style="color: #D3D3D3; font-size: 12px" target="_self"><span class="formato-ver-mas"><em>Para comunicar en TrademDesign<br>
+    </em></span></a><a href="<?php echo esc_url(get_permalink(2) ); ?>" style="color: #D3D3D3; font-size: 12px" target="_self"><em>Suscribirse al News</em></a><a href="http://www.trademmedia.com.ar/contacto" style="color:#FFF; font-size:11px" target="_self"><span class="formato-ver-mas"><em>    <br>
+    </em></span></a><a href="http://www.trademmedia.com/" style="color: #D3D3D3; font-size: 12px" target="_self"><em>Visite TrademMedia</em></a><a href="http://www.trademmedia.com.ar/contacto" style="color:#FFF; font-size:11px" target="_self"><span class="formato-ver-mas"><em>
+    <br>
+    </em></span></a></td>
+  </tr>
+  <tr>
+    <td height="7" colspan="2"></td>
+  </tr>
+  </tbody>
+</table>
+		  <header id="header" class="site-header clr container" role="banner">
+            
+		  </header><!-- #header -->
+</div><!-- #header-wrap -->
+
+		<div id="site-navigation-wrap" class="clr <?php if ( get_theme_mod( 'wpex_fixed_nav', '1' ) && !wp_is_mobile() ) echo 'sticky-nav'; ?>">
+			<div id="site-navigation-inner" class="clr">
+				<nav id="site-navigation" class="navigation main-navigation clr container-menu" role="navigation">
+					<a href="#mobile-nav" class="navigation-toggle"><span class="fa fa-bars navigation-toggle-icon"></span><span class="navigation-toggle-text"><?php echo get_theme_mod( 'wpex_mobile_menu_open_text', __( 'Click here to navigate', 'wpex' ) ); ?></span></a>
+					<?php
+					// Display main menu
+					wp_nav_menu( array(
+						'theme_location'	=> 'main_menu',
+						'sort_column'		=> 'menu_order',
+						'menu_class'		=> 'main-nav dropdown-menu sf-menu',
+						'fallback_cb'		=> false,
+					) ); ?>
+                    
+				</nav><!-- #site-navigation -->
+          
+                <div style="height: 41px; font-weight: bold;   font-size: 16px; line-height: 41px; text-shadow: 1px 1px 1px rgba(0,0,0,0.6); border-top: 1px solid transparent;" id="menu-item-7975" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7975"><a style="color:#FFF" href="<?php echo esc_url(get_permalink(5870) ); ?>">CATEGORÍAS</a></div>
+			</div><!-- #site-navigation-inner -->
+		</div><!-- #site-navigation-wrap -->
+<?php layerslider('random') ?>
+<div class="rotador"><?php marquesina_full(); ?></div>
+		<div class="site-main-wrap clr">
+			<div id="main" class="site-main clr container">
+			<?php
+			// Breadcrumbs
+			wpex_display_breadcrumbs(); ?>

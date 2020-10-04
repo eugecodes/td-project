@@ -1,0 +1,140 @@
+<?php
+/**
+ * The main template file.
+ *
+ * This is the most generic template file in a WordPress theme and one of the
+ * two required files for a theme (the other being style.css).
+ * It is used to display a page when nothing more specific matches a query.
+ * For example, it puts together the home page when no home.php file exists.
+ *
+ * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package WordPress
+ * @subpackage Fabulous WPExplorer Theme
+ * @since Fabulous 1.0
+ */
+
+get_header(); ?>
+
+	<div id="primary-home" class="content-area clr">
+		<div id="content" class="site-content left-content clr" role="main">
+	<?php 
+    $args = array(
+        'orderby' => 'menu_order',
+        'order' => 'ASC',
+        'cat'	=> '17' // categoria izquierda
+    );
+    $colIzqQy = new WP_Query($args); 
+	?>
+				<div id="blog-wrap" class="clr <?php if ( '1' != wpex_entry_grid_class() ) echo 'masonry-grid'; ?>">
+		<?php
+			while ($colIzqQy->have_posts())
+		    {
+		        $colIzqQy->the_post();
+		        get_template_part( 'content', get_post_format() );
+		    }
+		?>
+				</div><!-- #blog-wrap -->
+				<?php //wpex_get_pagination(); ?>
+		</div><!-- #content -->
+	</div><!-- #izquiera -->
+	<?php wp_reset_postdata(); ?>
+
+
+
+	<div id="primary-home" class="content-area clr">
+		<div id="content" class="site-content left-content clr" role="main">
+	<?php 
+    $args = array(
+        'orderby' => 'menu_order',
+        'order' => 'ASC',
+        'cat'	=> '16' // categoria centro
+    );
+    $colIzqQy = new WP_Query($args); 
+	?>
+				<div id="blog-wrap" class="clr <?php if ( '1' != wpex_entry_grid_class() ) echo 'masonry-grid'; ?>">
+		<?php
+			while ($colIzqQy->have_posts())
+		    {
+		        $colIzqQy->the_post();
+		        get_template_part( 'content', get_post_format() );
+		    }
+		?>
+				</div><!-- #blog-wrap -->
+				<?php //wpex_get_pagination(); ?>
+		</div><!-- #content -->
+	</div><!-- #centro -->
+	<?php wp_reset_postdata(); ?>
+
+
+
+
+	<div id="primary-home" class="content-area clr">
+		<div id="content" class="site-content left-content clr" role="main">
+	<?php 
+    $args = array(
+        'orderby' => 'menu_order',
+        'order' => 'ASC',
+        'cat'	=> '15' // categoria centro
+    );
+    $colIzqQy = new WP_Query($args); 
+	?>
+				<div id="blog-wrap" class="clr <?php if ( '1' != wpex_entry_grid_class() ) echo 'masonry-grid'; ?>">
+		<?php
+			while ($colIzqQy->have_posts())
+		    {
+		        $colIzqQy->the_post();
+		        get_template_part( 'content', get_post_format() );
+		    }
+		?>
+				</div><!-- #blog-wrap -->
+				<?php //wpex_get_pagination(); ?>
+		</div><!-- #content -->
+	</div><!-- #derecha -->
+	<?php wp_reset_postdata(); ?>
+
+
+
+
+
+
+<div id="footer" class="container clr">
+    
+   	<div id="footer-widgets" class="clr">
+			<div class="footer-box <?php echo $wpex_footer_box_class; ?> col col-1">
+			  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://novenodeco.com/" target="_blank"><img src="http://www.trademdesign.com/images/logos/noveceno.jpg" alt="NOVENO DECO" /></a></p>
+			  <p><a href="http://www.espaciotradem.com/linkeo.php?link=https://www.facebook.com/iluminarte.lem/" target="_blank"><img src="http://www.trademdesign.com/images/logos/iluminarte.jpg" alt="ILUMINARTE" /></a></p>
+			  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://www.losebanistas.com.ar/" target="_blank"><img src="http://www.trademdesign.com/images/logos/ebanistas.jpg" alt="EBANISTAS" /></a></p>
+	  </div><!-- .footer-box -->
+			<?php
+			// Second footer area
+			if ( get_theme_mod( 'wpex_footer_columns', '4' ) > '1' ) { ?>
+				<div class="footer-box <?php echo $wpex_footer_box_class; ?> col col-2">
+				  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://www.dwell.com.ar/" target="_blank"><img src="http://www.trademdesign.com/images/logos/dwell.jpg" alt="Dwell" /></a></p>
+				  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://www.babymuebles.com.ar/" target="_blank"><img src="http://www.trademdesign.com/images/logos/baby-muebles.jpg" alt="Babt Fabrica de Muebles" /></a></p>
+				  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://www.bonitoportezuelo.com.ar/" target="_blank"><img src="http://www.trademdesign.com/images/logos/portezuelo.jpg" alt="Bonito Portezuelo" /></a></p>
+	  </div><!-- .footer-box -->
+			<?php } ?>
+			<?php
+			// Third Footer Area
+			if ( get_theme_mod( 'wpex_footer_columns', '4' ) > '1' ) { ?>
+				<div class="footer-box <?php echo $wpex_footer_box_class; ?> col col-3">
+				  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://www.expoluxiluminacion.com.ar/" target="_blank"><img src="http://www.trademdesign.com/images/logos/expoluz.jpg" alt="Expoluz" /></a></p>
+				  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://www.bazzioni.com/" target="_blank"><img src="http://www.trademdesign.com/images/logos/bazzioni.jpg" alt="Bazzioni" /></a></p>
+				  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://www.macetaslacioppa.com.ar/" target="_blank"><img src="http://www.trademdesign.com/images/logos/la-cioppa-logo.jpg" alt="Macetas La Cioppa" /></a></p>
+	  </div><!-- .footer-box -->
+			<?php } ?>
+			<?php
+			// Fourth Footer Area
+			if ( get_theme_mod( 'wpex_footer_columns', '4' ) > '1' ) { ?>
+				<div class="footer-box <?php echo $wpex_footer_box_class; ?> col col-4">
+				  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://www.renobasolar.com.ar/" target="_blank"><img src="http://www.trademdesign.com/images/logos/renoba.jpg" alt="RenoBA Solar" /></a></p>
+				  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://www.areatresworkplace.com/es/" target="_blank"><img src="http://www.trademdesign.com/images/logos/areatres.jpg" alt="Area Tres" /></a></p>
+				  <p><a href="http://www.espaciotradem.com/linkeo.php?link=http://www.decobuild.com.ar/home/" target="_blank"><img src="http://www.trademdesign.com/images/logos/decobuild.jpg" alt="Decobuid" /></a></p>
+	  </div><!-- .footer-box -->
+			<?php } ?>
+  </div><!-- #footer-widgets -->
+        
+	</div><!-- #footer -->
+
+<?php get_footer(); ?>

@@ -1,0 +1,97 @@
+<?php
+/**
+ * The template for displaying Archive pages.
+ *
+ * Used to display archive-type pages if nothing more specific matches a query.
+ * For example, puts together date-based pages if no date.php file exists.
+ *
+ * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package WordPress
+ * @subpackage Fabulous WPExplorer Theme
+ * @since Fabulous 1.0
+ */
+
+get_header(); ?>
+
+<?php
+$num_cols = 3; // set the number of columns here
+//the query section is only neccessary if the code is used in a page template//
+$paged = (get_query_var('paged')) ? get_query_var('paged') : 1; // for pagination
+$args = array(
+  'posts_per_page' => 16, // optional to overwrite the dashboard setting
+  'cat' => 13, // add any other query parameter to this array
+  'paged' => $paged
+);
+//query_posts($args);
+$colIzqQy = new WP_Query($args); 
+//end of query section
+if ($colIzqQy->have_posts()) :
+  for ( $i=1 ; $i <= $num_cols; $i++ ) :
+    echo '<div id="col-'.$i.'" class="col">';
+    $counter = $num_cols + 1 - $i;
+    while ($colIzqQy->have_posts()) : $colIzqQy->the_post();
+      if( $counter%$num_cols == 0 ) : ?>
+        <!-- core post area;
+        title, content, thumbnails, postmeta, etc -->
+        <?php echo the_title(); ?>
+      <?php endif;
+      $counter++;
+    endwhile;
+    rewind_posts();
+    echo '</div>'; //closes the column div
+  endfor;
+  wpex_get_pagination();
+else:
+  echo 'no posts';
+endif;
+wp_reset_query();
+?>
+
+
+
+
+
+
+<?php /*
+
+	<div id="primary" class="content-area clr">
+		<div id="content" class="site-content left-content clr" role="main">
+			<header class="archive-header clr">
+				<h1 class="archive-header-title"><?php
+					if ( is_day() ) :
+						printf( __( 'Daily Archives: %s', 'wpex' ), get_the_date() );
+					elseif ( is_month() ) :
+						printf( __( 'Monthly Archives: %s', 'wpex' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'wpex' ) ) );
+					elseif ( is_year() ) :
+						printf( __( 'Yearly Archives: %s', 'wpex' ), get_the_date( _x( 'Y', 'yearly archives date format', 'wpex' ) ) );
+					else :
+						echo single_term_title();
+					endif;
+				?></h1>
+				<?php if ( term_description() ) { ?>
+					<div class="archive-description clr">
+						<?php echo term_description(); ?>
+					</div><!-- #archive-description -->
+				<?php } ?>
+			</header><!-- .archive-header -->
+			<?php if ( have_posts() ) : ?>
+				<div id="blog-wrap" class="clr <?php if ( '1' != wpex_entry_grid_class() ) echo 'masonry-grid'; ?>">
+					<?php
+					// Begin loop
+					while ( have_posts() ) : the_post();
+						get_template_part( 'content', get_post_format() );
+					endwhile; ?>
+				</div><!-- #blog-wrap -->
+				<?php wpex_get_pagination(); ?>
+			<?php else : ?>
+				<?php get_template_part( 'content', 'none' ); ?>
+			<?php endif; ?>
+		</div><!-- #content -->
+		<?php get_sidebar(); ?>
+	</div><!-- #primary -->
+
+<?php */ ?>
+
+
+<?php get_footer(); ?>

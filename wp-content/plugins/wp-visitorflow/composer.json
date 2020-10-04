@@ -1,0 +1,6 @@
+{
+    "require": {
+        "piwik/device-detector": "3.4.3",
+		"doctrine/cache": "1.2.*"
+    }
+}
